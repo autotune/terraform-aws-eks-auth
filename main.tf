@@ -31,7 +31,27 @@ locals {
     }
   ]
 }
+    
+resource "kubernetes_config_map" "aws_auth" {
+  count = var.create && var.create_aws_auth_configmap ? 1 : 0
 
+  metadata {
+    name      = "aws-auth"
+    namespace = "kube-system"
+  }
+
+  data = {
+    mapRoles = yamlencode(concat(local.roles, local.master_roles))
+    mapUsers = yamlencode(local.users)
+  }
+  
+  lifecycle {
+    # We are ignoring the data here since we will manage it with the resource below
+    # This is only intended to be used in scenarios where the configmap does not exist
+    ignore_changes = [data, metadata[0].labels, metadata[0].annotations]
+  }
+}
+    
 resource "kubernetes_config_map_v1_data" "aws_auth" {
   metadata {
     // The name of the ConfigMap needs to be `aws-auth`, as specified by AWS. 
