@@ -38,12 +38,6 @@ resource "kubernetes_config_map" "aws_auth" {
     // For more info, please see here: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
     name      = "aws-auth"
     namespace = "kube-system"
-    labels = merge(
-      {
-        "app.kubernetes.io/managed-by" = "Terraform"
-        "terraform.io/module"          = "github.com/koslib/terraform-aws-eks-auth"
-      }
-    )
   }
 
   data = {
