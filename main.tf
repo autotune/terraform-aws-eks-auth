@@ -32,7 +32,7 @@ locals {
   ]
 }
 
-resource "kubernetes_config_map" "aws_auth" {
+resource "kubernetes_config_map_v1_data" "aws_auth" {
   metadata {
     // The name of the ConfigMap needs to be `aws-auth`, as specified by AWS. 
     // For more info, please see here: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
@@ -40,6 +40,8 @@ resource "kubernetes_config_map" "aws_auth" {
     namespace = "kube-system"
   }
 
+  force = true 
+  
   data = {
     mapRoles = yamlencode(concat(local.roles, local.master_roles))
     mapUsers = yamlencode(local.users)
