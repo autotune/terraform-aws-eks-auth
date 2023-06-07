@@ -34,16 +34,14 @@ locals {
 
 resource "kubernetes_config_map" "aws_auth" {
   metadata {
-    // The name of the ConfigMap needs to be `aws-auth`, as specified by AWS. 
+    // The name of the ConfigMap needs to be `aws-auth`, as specified by AWS.
     // For more info, please see here: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
     name      = "aws-auth"
     namespace = "kube-system"
-    labels = merge(
-      {
+    labels = {
         "app.kubernetes.io/managed-by" = "Terraform"
         "terraform.io/module"          = "github.com/koslib/terraform-aws-eks-auth"
-      }
-    )
+    }
   }
 
   data = {
