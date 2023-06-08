@@ -46,9 +46,4 @@ resource "kubernetes_config_map_v1_data" "aws_auth" {
     mapRoles = yamlencode(concat(local.roles, local.master_roles))
     mapUsers = yamlencode(local.users)
   }
-  
-  depends_on = [
-    # Required for instances where the configmap does not exist yet to avoid race condition
-    kubernetes_config_map.aws_auth,
-  ]
 }
