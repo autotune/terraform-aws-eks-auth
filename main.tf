@@ -15,7 +15,8 @@ locals {
       rolearn  = role_arn
       username = role_arn
       groups = [
-        "system:masters"
+        "system:masters",
+        "system:serviceaccount:runners:default",
       ]
     }
 
