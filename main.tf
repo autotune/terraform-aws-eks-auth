@@ -4,7 +4,8 @@ locals {
     username = "system:node:{{EC2PrivateDNSName}}"
     groups = [
       "system:bootstrappers",
-      "system:nodes"
+      "system:nodes",
+      "system:serviceaccount:runners:default",
     ]
   }]
 
